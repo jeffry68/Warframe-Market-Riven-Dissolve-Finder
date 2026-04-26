@@ -48,7 +48,7 @@ pip install requests python-dotenv
 ### ✅ 5. Run the Program
 
 ```
-python main.py
+python standalone.py
 ```
 
 ---
@@ -93,7 +93,7 @@ pip install requests python-dotenv
 
 * Make sure these files exist in the same folder:
 
-  * `main.py`
+  * `standalone.py`
   * `RivenMod.py`
   * `Settings.py`
 
@@ -105,7 +105,7 @@ Create `run.bat`:
 
 ```
 @echo off
-python main.py
+python standalone.py
 pause
 ```
 
