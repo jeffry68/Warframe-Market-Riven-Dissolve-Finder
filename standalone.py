@@ -135,7 +135,7 @@ def main():
     while True:
         print("\nCommands:")
         print("1. ping")
-        print("2. riven [status]      (just typing 2 defaults to ingame)")
+        print("2. riven [status]      (just typing 2 defaults to offline)")
         print("3. sort")
         print("4. exit")
 
@@ -146,7 +146,7 @@ def main():
 
         elif command.startswith("riven") or command == "2":
             parts = command.split()
-            status = parts[1] if len(parts) > 1 else "ingame"
+            status = parts[1] if len(parts) > 1 else ""
             run_riven_search(status)
 
         elif command == "sort" or command == "3":
