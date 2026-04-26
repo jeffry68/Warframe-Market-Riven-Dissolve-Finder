@@ -40,7 +40,7 @@ cd <your-repo-folder>
 ### ✅ 4. Install Dependencies
 
 ```
-pip install requests python-dotenv
+pip install requests
 ```
 
 ---
@@ -86,7 +86,7 @@ sort
 ### ❌ Missing modules
 
 ```
-pip install requests python-dotenv
+pip install requests python-dot
 ```
 
 ### ❌ No output / errors
