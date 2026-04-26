@@ -1,0 +1,1 @@
+global prefered_status
