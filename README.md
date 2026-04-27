@@ -86,7 +86,7 @@ sort
 ### ❌ Missing modules
 
 ```
-pip install requests python-dot
+pip install requests
 ```
 
 ### ❌ No output / errors
