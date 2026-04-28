@@ -79,6 +79,10 @@ sort
 
 ## ⚠️ Troubleshooting
 
+### ❌ Error 429?
+
+* This is fine, it just means you are being rate-limited by the Warframe Market Api
+
 ### ❌ Python not recognized
 
 * Reinstall Python and enable **Add to PATH**
