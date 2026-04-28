@@ -19,19 +19,16 @@ stat = [
     "channeling_efficiency", "channeling_damage", "range"
 ]
 
+user_status = ["online", "ingame", "offline", ""]
+
+
 last_output = []
 
 
 def find_Riven(endpoint):
     all_auctions = []
 
-    stat_list = stat[:]
-
-    if Settings.randomize_stats:
-        random.shuffle(stat_list)
-        print("[INFO] Stat list randomized")
-
-    for s in stat_list:
+    for s in stat:
         time.sleep(random.uniform(0.3, 0.35))
 
         params = {
@@ -67,8 +64,17 @@ def find_Riven(endpoint):
         json.dump({"payload": {"auctions": unique_auctions}}, f, indent=4)
 
 
-def run_riven_search():
+def run_riven_search(user_input):
     global last_output
+
+    if user_input != "":
+        Settings.prefered_status = user_input
+
+        if Settings.prefered_status.lower() not in user_status:
+            print("Unknown parameter, defaulting to all")
+            Settings.prefered_status = ""
+    else:
+        Settings.prefered_status = ""
 
     print("\nFinding Riven Mods... (Please Be Patient)\n")
 
@@ -78,8 +84,9 @@ def run_riven_search():
 
     if isinstance(output, list):
         last_output = output
-        for r in output:
-            print(r)
+
+        for riven_mod in output:
+            print(riven_mod)
     else:
         print(output)
 
@@ -101,7 +108,9 @@ def sort_rivens():
 
     if choice == "1":
         last_output.sort(
-            key=lambda r: (r.calculated_value / r.plat if r.plat != 0 else 0),
+            key=lambda r: (
+                r.calculated_value / r.plat if r.plat != 0 else 0
+            ),
             reverse=True
         )
 
@@ -120,86 +129,31 @@ def sort_rivens():
         print(r)
 
 
-def settings_menu():
-    while True:
-        print("\n=== Settings ===")
-        print(f"1. Set Preferred Status ({Settings.prefered_status or 'ALL'})")
-        print(f"2. Toggle Randomize Stat List ({Settings.randomize_stats})")
-        print(f"3. Set Minimum Endo/Plat ({Settings.min_endo_per_plat})")
-        print("4. Back")
-
-        choice = input("Choice: ").strip()
-
-        if choice == "1":
-            print("\nChoose status:")
-            print("1. ALL")
-            print("2. online")
-            print("3. ingame")
-            print("4. offline")
-
-            s = input("Choice: ").strip()
-
-            if s == "1":
-                Settings.prefered_status = ""
-            elif s == "2":
-                Settings.prefered_status = "online"
-            elif s == "3":
-                Settings.prefered_status = "ingame"
-            elif s == "4":
-                Settings.prefered_status = "offline"
-            else:
-                print("Invalid choice")
-                continue
-
-            Settings.save_settings()
-
-        elif choice == "2":
-            Settings.randomize_stats = not Settings.randomize_stats
-            Settings.save_settings()
-
-        elif choice == "3":
-            try:
-                val = float(input("Enter value: "))
-                Settings.min_endo_per_plat = val
-                Settings.save_settings()
-            except:
-                print("Invalid input")
-
-        elif choice == "4":
-            break
-
-        else:
-            print("Invalid choice")
-
-
 def main():
-    Settings.load_settings()
-
     print("=== Warframe Riven Scraper ===")
 
     while True:
         print("\nCommands:")
         print("1. ping")
-        print("2. riven (uses saved settings)")
+        print("2. riven [status]      (just typing 2 defaults to ingame)")
         print("3. sort")
-        print("4. settings")
-        print("5. exit")
+        print("4. exit")
 
         command = input("\nEnter command: ").strip().lower()
 
-        if command in ["ping", "1"]:
+        if command == "ping" or command == "1":
             print("Pong!")
 
-        elif command in ["riven", "2"]:
-            run_riven_search()
+        elif command.startswith("riven") or command == "2":
+            parts = command.split()
+            status = parts[1] if len(parts) > 1 else "ingame"
+            run_riven_search(status)
 
-        elif command in ["sort", "3"]:
+        elif command == "sort" or command == "3":
             sort_rivens()
 
-        elif command in ["settings", "4"]:
-            settings_menu()
-
-        elif command in ["exit", "5"]:
+        elif command == "exit" or command == "4":
+            print("Exiting...")
             break
 
         else:
