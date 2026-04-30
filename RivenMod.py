@@ -40,7 +40,6 @@ def parse_scraped_data():
             if isinstance(plat, int) and plat != 0:
                 ratio = calculated_value / plat
 
-                # ✅ dynamic filter from settings
                 if ratio >= Settings.min_endo_per_plat:
                     status = auction["owner"]["status"]
 

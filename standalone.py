@@ -24,7 +24,6 @@ last_output = []
 
 def find_Riven(endpoint):
     all_auctions = []
-
     stat_list = stat[:]
 
     if Settings.randomize_stats:
@@ -32,7 +31,14 @@ def find_Riven(endpoint):
         print("[INFO] Stat list randomized")
 
     for s in stat_list:
-        time.sleep(random.uniform(0.3, 0.35))
+        print("Trying Attribute: " + s)
+
+        if Settings.request_mode == "fast":
+            delay = random.uniform(0.3, 0.35)
+        else:
+            delay = random.uniform(6, 7)
+
+        time.sleep(delay)
 
         params = {
             'platform': 'pc',
@@ -46,7 +52,10 @@ def find_Riven(endpoint):
         if response.status_code == 200:
             data = response.json()
             auctions = data["payload"]["auctions"]
+
             all_auctions.extend(auctions)
+
+            print(f"Rivens Found: {len(auctions)} | Total: {len(all_auctions)}")
         else:
             print("Blocked or bad response:", response.status_code)
 
@@ -70,7 +79,7 @@ def find_Riven(endpoint):
 def run_riven_search():
     global last_output
 
-    print("\nFinding Riven Mods... (Please Be Patient)\n")
+    print(f"\nFinding Riven Mods... Mode: {Settings.request_mode.upper()} (Please Be Patient)\n")
 
     find_Riven("/auctions/search?type=riven")
 
@@ -126,7 +135,8 @@ def settings_menu():
         print(f"1. Set Preferred Status ({Settings.prefered_status or 'ALL'})")
         print(f"2. Toggle Randomize Stat List ({Settings.randomize_stats})")
         print(f"3. Set Minimum Endo/Plat ({Settings.min_endo_per_plat})")
-        print("4. Back")
+        print(f"4. Set Request Mode ({Settings.request_mode})")
+        print("5. Back")
 
         choice = input("Choice: ").strip()
 
@@ -166,6 +176,23 @@ def settings_menu():
                 print("Invalid input")
 
         elif choice == "4":
+            print("\nRequest Mode:")
+            print("1. fast (0.3-0.35 sec)")
+            print("2. safe (6-8 sec)")
+
+            mode = input("Choice: ").strip()
+
+            if mode == "1":
+                Settings.request_mode = "fast"
+            elif mode == "2":
+                Settings.request_mode = "safe"
+            else:
+                print("Invalid choice")
+                continue
+
+            Settings.save_settings()
+
+        elif choice == "5":
             break
 
         else:
@@ -180,7 +207,7 @@ def main():
     while True:
         print("\nCommands:")
         print("1. ping")
-        print("2. riven (uses saved settings)")
+        print("2. riven")
         print("3. sort")
         print("4. settings")
         print("5. exit")
