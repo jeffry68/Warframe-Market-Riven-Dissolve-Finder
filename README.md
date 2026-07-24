@@ -121,27 +121,6 @@ Endo/Plat >= 500
 
 ---
 
-### Request Mode
-
-Controls API speed.
-
-### fast
-- 0.3–0.35 sec delay
-- Faster
-- May trigger rate limits
-
-### safe
-- 6–8 sec delay
-- Much slower
-- More complete results / fewer rate limits
-
-Recommended:
-
-- everyday scanning → `fast`
-- full scan → `safe`
-
----
-
 ## Sorting
 
 After running `riven`, you can sort results:
@@ -176,7 +155,6 @@ sort
     "prefered_status": "ingame",
     "min_endo_per_plat": 500.0,
     "randomize_stats": true,
-    "request_mode": "safe"
 }
 ```
 
@@ -192,6 +170,7 @@ RivenMod.py
 Settings.py
 settings.json
 scraped.txt
+version.txt
 ```
 
 ---

@@ -5,6 +5,12 @@ import random
 import RivenMod
 import Settings
 
+
+CURRENT_VERSION = ""
+OWNER = "jeffry68"
+REPO = "Warframe-Market-Riven-Dissolve-Finder"
+url = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/main/version.txt"
+
 baseUrl = "https://api.warframe.market/v1"
 
 stat = [
@@ -19,8 +25,23 @@ stat = [
     "channeling_efficiency", "channeling_damage", "range"
 ]
 
+
+
 last_output = []
 
+def check_for_updates():
+    with open("version.txt", "r", encoding="utf-8") as file:
+        content = file.read()
+        CURRENT_VERSION=content
+
+    try:
+        latest = requests.get(url, timeout=5).text.strip()
+
+        if latest != CURRENT_VERSION:
+            print(f"New version available: {latest}")
+    except Exception:
+        print("Failed to request version information")
+        pass
 
 def find_Riven(endpoint):
     all_auctions = []
@@ -33,10 +54,7 @@ def find_Riven(endpoint):
     for s in stat_list:
         print("Trying Attribute: " + s)
 
-        if Settings.request_mode == "fast":
-            delay = random.uniform(0.3, 0.35)
-        else:
-            delay = random.uniform(6, 7)
+        delay = random.uniform(6, 7)
 
         time.sleep(delay)
 
@@ -135,8 +153,7 @@ def settings_menu():
         print(f"1. Set Preferred Status ({Settings.prefered_status or 'ALL'})")
         print(f"2. Toggle Randomize Stat List ({Settings.randomize_stats})")
         print(f"3. Set Minimum Endo/Plat ({Settings.min_endo_per_plat})")
-        print(f"4. Set Request Mode ({Settings.request_mode})")
-        print("5. Back")
+        print("4. Back")
 
         choice = input("Choice: ").strip()
 
@@ -176,23 +193,6 @@ def settings_menu():
                 print("Invalid input")
 
         elif choice == "4":
-            print("\nRequest Mode:")
-            print("1. fast (0.3-0.35 sec)")
-            print("2. safe (6-8 sec)")
-
-            mode = input("Choice: ").strip()
-
-            if mode == "1":
-                Settings.request_mode = "fast"
-            elif mode == "2":
-                Settings.request_mode = "safe"
-            else:
-                print("Invalid choice")
-                continue
-
-            Settings.save_settings()
-
-        elif choice == "5":
             break
 
         else:
@@ -234,4 +234,6 @@ def main():
 
 
 if __name__ == "__main__":
+    check_for_updates()
     main()
+

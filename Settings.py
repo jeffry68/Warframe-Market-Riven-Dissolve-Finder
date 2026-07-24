@@ -22,7 +22,6 @@ def load_settings():
         prefered_status = data.get("prefered_status", "")
         min_endo_per_plat = data.get("min_endo_per_plat", 0)
         randomize_stats = data.get("randomize_stats", False)
-        request_mode = data.get("request_mode", "safe")
 
 
 def save_settings():
@@ -30,7 +29,6 @@ def save_settings():
         "prefered_status": prefered_status,
         "min_endo_per_plat": min_endo_per_plat,
         "randomize_stats": randomize_stats,
-        "request_mode": request_mode
     }
 
     with open(SETTINGS_FILE, "w") as f:
