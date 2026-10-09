@@ -22,7 +22,11 @@ stat = [
     "slash_damage", "status_chance", "status_duration", "toxin_damage",
     "recoil", "zoom", "chance_to_gain_extra_combo_count", "combo_duration",
     "critical_chance_on_slide_attack", "finisher_damage",
-    "channeling_efficiency", "channeling_damage", "range"
+    "channeling_efficiency", "channeling_damage", "range", "ammo_efficiency",
+    "blast", "corrosive", "damage_to_orokin", "damage_to_scaldra", "damage_to_techrot",
+    "gas", "heavy_attack_wind_up_speed", "magnetic", "melee_damage_on_heavy_attack", 
+    "parry_angle", "radiation", "magazine_reloaded_s_when_holstered", "slam_attack_damage", "status_damage",
+    "viral", "weak_point_critical_chance", "weak_point_damage"
 ]
 
 
